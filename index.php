@@ -1,94 +1,350 @@
-<?php    
-/*
- * PHP QR Code encoder
- *
- * Exemplatory usage
- *
- * PHP QR Code is distributed under LGPL 3
- * Copyright (C) 2010 Dominik Dzienia <deltalab at poczta dot fm>
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 3 of the License, or any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
- */
-    
-    echo "<h1>PHP QR Code</h1><hr/>";
-    
-    //set it to writable location, a place for temp generated PNG files
-    $PNG_TEMP_DIR = dirname(__FILE__).DIRECTORY_SEPARATOR.'temp'.DIRECTORY_SEPARATOR;
-    
-    //html PNG location prefix
-    $PNG_WEB_DIR = 'temp/';
+<?php 
+	session_start();
+	require 'config/database.php';
+    require 'config/function.php';
 
-    include "qrlib.php";    
-    
-    //ofcourse we need rights to create temp dir
-    if (!file_exists($PNG_TEMP_DIR))
-        mkdir($PNG_TEMP_DIR);
-    
-    
-    $filename = $PNG_TEMP_DIR.'test.png';
-    
-    //processing form input
-    //remember to sanitize user input in real-life solution !!!
-    $errorCorrectionLevel = 'L';
-    if (isset($_REQUEST['level']) && in_array($_REQUEST['level'], array('L','M','Q','H')))
-        $errorCorrectionLevel = $_REQUEST['level'];    
+	if(isset($_POST['a'])){
+		$a = $_POST['a'];
+	}
+	elseif(isset($_GET['a'])){
+		$a = $_GET['a'];
+	}else{
+		$a = 'index';
+	}
+	
+	if($a == 'index'){
+		include 'main.php';
+	}
+	elseif($a == 'login'){
+		include 'login.php';
+	}
+	elseif($a == 'register'){
+		include 'register.php';
+	}
+	elseif($a == 'forgotpassword'){
+		include 'forgotpassword.php';
+	}
+	elseif($a == 'usermain'){
+		include 'user/userheader.php';
+		include 'user/usertopbar.php';
+		include 'user/usernavbar.php';
+		include 'user/usermain.php';
+		include 'user/userfooter.php';
+	}
+	elseif($a == 'userfeedback'){
+		include 'user/userheader.php';
+		include 'user/usertopbar.php';
+		include 'user/usernavbar.php';
+		include 'user/userfeedback.php';
+		include 'user/userfooter.php';
+	}
+	elseif($a == 'userdashboard'){
+		include 'user/userheader.php';
+		include 'user/usertopbar.php';
+		include 'user/usernavbar.php';
+		include 'user/userdashboard.php';
+		include 'user/userfooter.php';
+	}
+	elseif($a == 'userappointmentdate'){
+		include 'user/userheader.php';
+		include 'user/usertopbar.php';
+		include 'user/usernavbar.php';
+		include 'user/userappointmentdate.php';
+		include 'user/userfooter.php';
+	}
+	elseif($a == 'userprofilepicture'){
+		include 'user/userheader.php';
+		include 'user/usertopbar.php';
+		include 'user/usernavbar.php';
+		include 'user/userprofilepicture.php';
+		include 'user/userfooter.php';
+	}
+	elseif($a == 'userchangepass'){
+		include 'user/userheader.php';
+		include 'user/usertopbar.php';
+		include 'user/usernavbar.php';
+		include 'user/userchangepass.php';
+		include 'user/userfooter.php';
+	}
+	elseif($a == 'usereditprofile'){
+		include 'user/userheader.php';
+		include 'user/usertopbar.php';
+		include 'user/usernavbar.php';
+		include 'user/usereditprofile.php';
+		include 'user/userfooter.php';
+	}
+	elseif($a == 'userforms'){
+		include 'user/userheader.php';
+		include 'user/usertopbar.php';
+		include 'user/usernavbar.php';
+		include 'user/userforms.php';
+		include 'user/userfooter.php';
+	}
+	elseif($a == 'userappointmentadd'){
+		include 'user/userheader.php';
+		include 'user/usertopbar.php';
+		include 'user/usernavbar.php';
+		include 'user/userappointmentadd.php';
+		include 'user/userfooter.php';
+	}
+	elseif($a == 'userappointmentedit'){
+		include 'user/userheader.php';
+		include 'user/usertopbar.php';
+		include 'user/usernavbar.php';
+		include 'user/userappointmentedit.php';
+		include 'user/userfooter.php';
+	}
+	elseif($a == 'userappointmentreceipt'){
+		include 'user/userappointmentreceipt.php';
+	}
+	elseif($a == 'userhistory'){
+		include 'user/userheader.php';
+		include 'user/usertopbar.php';
+		include 'user/usernavbar.php';
+		include 'user/userhistory.php';
+		include 'user/userfooter.php';
+	}
+	elseif($a == 'adminmain'){
+		include 'admin/adminheader.php';
+		include 'admin/admintopbar.php';
+		include 'admin/adminnavbar.php';
+		include 'admin/adminmain.php';
+		include 'admin/adminfooter.php';
+	}
+	elseif($a == 'adminprofile'){
+		include 'admin/adminheader.php';
+		include 'admin/admintopbar.php';
+		include 'admin/adminnavbar.php';
+		include 'admin/adminprofile.php';
+		include 'admin/adminfooter.php';
+	}
+	elseif($a == 'adminprofilepicture'){
+		include 'admin/adminheader.php';
+		include 'admin/admintopbar.php';
+		include 'admin/adminnavbar.php';
+		include 'admin/adminprofilepicture.php';
+		include 'admin/adminfooter.php';
+	}
+	elseif($a == 'admindashboard'){
+		include 'admin/adminheader.php';
+		include 'admin/admintopbar.php';
+		include 'admin/adminnavbar.php';
+		include 'admin/admindashboard.php';
+		include 'admin/adminfooter.php';
+	}
+	elseif($a == 'adminappointmentdate'){
+		include 'admin/adminheader.php';
+		include 'admin/admintopbar.php';
+		include 'admin/adminnavbar.php';
+		include 'admin/adminappointmentdate.php';
+		include 'admin/adminfooter.php';
+	}
+	elseif($a == 'adminappointment'){
+		include 'admin/adminheader.php';
+		include 'admin/admintopbar.php';
+		include 'admin/adminnavbar.php';
+		include 'admin/adminappointment.php';
+		include 'admin/adminfooter.php';
+	}
+	elseif($a == 'adminappointmentadd'){
+		include 'admin/adminheader.php';
+		include 'admin/admintopbar.php';
+		include 'admin/adminnavbar.php';
+		include 'admin/adminappointmentadd.php';
+		include 'admin/adminfooter.php';
+	}
+	elseif($a == 'adminappointmentedit'){
+		include 'admin/adminheader.php';
+		include 'admin/admintopbar.php';
+		include 'admin/adminnavbar.php';
+		include 'admin/adminappointmentedit.php';
+		include 'admin/adminfooter.php';
+	}
+	elseif($a == 'adminappointmentview'){
+		include 'admin/adminheader.php';
+		include 'admin/admintopbar.php';
+		include 'admin/adminnavbar.php';
+		include 'admin/adminappointmentview.php';
+		include 'admin/adminfooter.php';
+	}
+	elseif($a == 'adminappointmentscan'){
+		include 'admin/adminheader.php';
+		include 'admin/admintopbar.php';
+		include 'admin/adminnavbar.php';
+		include 'admin/adminappointmentscan.php';
+		include 'admin/adminfooter.php';
+	}
+	elseif($a == 'adminappointmentreceipt'){
+		include 'admin/adminappointmentreceipt.php';
+	}
+	elseif($a == 'admincategory'){
+		include 'admin/adminheader.php';
+		include 'admin/admintopbar.php';
+		include 'admin/adminnavbar.php';
+		include 'admin/admincategory.php';
+		include 'admin/adminfooter.php';
+	}
+	elseif($a == 'admincategoryadd'){
+		include 'admin/adminheader.php';
+		include 'admin/admintopbar.php';
+		include 'admin/adminnavbar.php';
+		include 'admin/admincategoryadd.php';
+		include 'admin/adminfooter.php';
+	}
+	elseif($a == 'admincategoryedit'){
+		include 'admin/adminheader.php';
+		include 'admin/admintopbar.php';
+		include 'admin/adminnavbar.php';
+		include 'admin/admincategoryedit.php';
+		include 'admin/adminfooter.php';
+	}
+	elseif($a == 'admincategoryupload'){
+		include 'admin/adminheader.php';
+		include 'admin/admintopbar.php';
+		include 'admin/adminnavbar.php';
+		include 'admin/admincategoryupload.php';
+		include 'admin/adminfooter.php';
+	}
+	elseif($a == 'adminforms'){
+		include 'admin/adminheader.php';
+		include 'admin/admintopbar.php';
+		include 'admin/adminnavbar.php';
+		include 'admin/adminforms.php';
+		include 'admin/adminfooter.php';
+	}
+	elseif($a == 'adminformsadd'){
+		include 'admin/adminheader.php';
+		include 'admin/admintopbar.php';
+		include 'admin/adminnavbar.php';
+		include 'admin/adminformsadd.php';
+		include 'admin/adminfooter.php';
+	}
+	elseif($a == 'adminformsedit'){
+		include 'admin/adminheader.php';
+		include 'admin/admintopbar.php';
+		include 'admin/adminnavbar.php';
+		include 'admin/adminformsedit.php';
+		include 'admin/adminfooter.php';
+	}
+	elseif($a == 'admindepartment'){
+		include 'admin/adminheader.php';
+		include 'admin/admintopbar.php';
+		include 'admin/adminnavbar.php';
+		include 'admin/admindepartment.php';
+		include 'admin/adminfooter.php';
+	}
+	elseif($a == 'admindepartmentadd'){
+		include 'admin/adminheader.php';
+		include 'admin/admintopbar.php';
+		include 'admin/adminnavbar.php';
+		include 'admin/admindepartmentadd.php';
+		include 'admin/adminfooter.php';
+	}
+	elseif($a == 'admindepartmentedit'){
+		include 'admin/adminheader.php';
+		include 'admin/admintopbar.php';
+		include 'admin/adminnavbar.php';
+		include 'admin/admindepartmentedit.php';
+		include 'admin/adminfooter.php';
+	}
+	elseif($a == 'adminschedule'){
+		include 'admin/adminheader.php';
+		include 'admin/admintopbar.php';
+		include 'admin/adminnavbar.php';
+		include 'admin/adminschedule.php';
+		include 'admin/adminfooter.php';
+	}
+	elseif($a == 'adminscheduleadd'){
+		include 'admin/adminheader.php';
+		include 'admin/admintopbar.php';
+		include 'admin/adminnavbar.php';
+		include 'admin/adminscheduleadd.php';
+		include 'admin/adminfooter.php';
+	}
+	elseif($a == 'adminscheduleedit'){
+		include 'admin/adminheader.php';
+		include 'admin/admintopbar.php';
+		include 'admin/adminnavbar.php';
+		include 'admin/adminscheduleedit.php';
+		include 'admin/adminfooter.php';
+	}
+	elseif($a == 'adminholiday'){
+		include 'admin/adminheader.php';
+		include 'admin/admintopbar.php';
+		include 'admin/adminnavbar.php';
+		include 'admin/adminholiday.php';
+		include 'admin/adminfooter.php';
+	}
+	elseif($a == 'adminholidayadd'){
+		include 'admin/adminheader.php';
+		include 'admin/admintopbar.php';
+		include 'admin/adminnavbar.php';
+		include 'admin/adminholidayadd.php';
+		include 'admin/adminfooter.php';
+	}
+	elseif($a == 'adminholidayedit'){
+		include 'admin/adminheader.php';
+		include 'admin/admintopbar.php';
+		include 'admin/adminnavbar.php';
+		include 'admin/adminholidayedit.php';
+		include 'admin/adminfooter.php';
+	}
+	elseif($a == 'adminfeedback'){
+		include 'admin/adminheader.php';
+		include 'admin/admintopbar.php';
+		include 'admin/adminnavbar.php';
+		include 'admin/adminfeedback.php';
+		include 'admin/adminfooter.php';
+	}
+	elseif($a == 'adminfeedbackadd'){
+		include 'admin/adminheader.php';
+		include 'admin/admintopbar.php';
+		include 'admin/adminnavbar.php';
+		include 'admin/adminfeedbackadd.php';
+		include 'admin/adminfooter.php';
+	}
+	elseif($a == 'adminfeedbackedit'){
+		include 'admin/adminheader.php';
+		include 'admin/admintopbar.php';
+		include 'admin/adminnavbar.php';
+		include 'admin/adminfeedbackedit.php';
+		include 'admin/adminfooter.php';
+	}
+	elseif($a == 'adminfeedbackreport'){
+		include 'admin/adminheader.php';
+		include 'admin/admintopbar.php';
+		include 'admin/adminnavbar.php';
+		include 'admin/adminfeedbackreport.php';
+		include 'admin/adminfooter.php';
+	}
+	elseif($a == 'adminuser'){
+		include 'admin/adminheader.php';
+		include 'admin/admintopbar.php';
+		include 'admin/adminnavbar.php';
+		include 'admin/adminuser.php';
+		include 'admin/adminfooter.php';
+	}
+	elseif($a == 'adminuseradd'){
+		include 'admin/adminheader.php';
+		include 'admin/admintopbar.php';
+		include 'admin/adminnavbar.php';
+		include 'admin/adminuseradd.php';
+		include 'admin/adminfooter.php';
+	}
+	elseif($a == 'adminuseredit'){
+		include 'admin/adminheader.php';
+		include 'admin/admintopbar.php';
+		include 'admin/adminnavbar.php';
+		include 'admin/adminuseredit.php';
+		include 'admin/adminfooter.php';
+	}
+	elseif($a == 'adminreport'){
+		include 'admin/adminheader.php';
+		include 'admin/admintopbar.php';
+		include 'admin/adminnavbar.php';
+		include 'admin/adminreport.php';
+		include 'admin/adminfooter.php';
+	}
 
-    $matrixPointSize = 4;
-    if (isset($_REQUEST['size']))
-        $matrixPointSize = min(max((int)$_REQUEST['size'], 1), 10);
-
-
-    if (isset($_REQUEST['data'])) { 
-    
-        //it's very important!
-        if (trim($_REQUEST['data']) == '')
-            die('data cannot be empty! <a href="?">back</a>');
-            
-        // user data
-        $filename = $PNG_TEMP_DIR.'test'.md5($_REQUEST['data'].'|'.$errorCorrectionLevel.'|'.$matrixPointSize).'.png';
-        QRcode::png($_REQUEST['data'], $filename, $errorCorrectionLevel, $matrixPointSize, 2);    
-        
-    } else {    
-    
-        //default data
-        echo 'You can provide data in GET parameter: <a href="?data=like_that">like that</a><hr/>';    
-        QRcode::png('PHP QR Code :)', $filename, $errorCorrectionLevel, $matrixPointSize, 2);    
-        
-    }    
-        
-    //display generated file
-    echo '<img src="'.$PNG_WEB_DIR.basename($filename).'" /><hr/>';  
-    
-    //config form
-    echo '<form action="index.php" method="post">
-        Data:&nbsp;<input name="data" value="'.(isset($_REQUEST['data'])?htmlspecialchars($_REQUEST['data']):'PHP QR Code :)').'" />&nbsp;
-        ECC:&nbsp;<select name="level">
-            <option value="L"'.(($errorCorrectionLevel=='L')?' selected':'').'>L - smallest</option>
-            <option value="M"'.(($errorCorrectionLevel=='M')?' selected':'').'>M</option>
-            <option value="Q"'.(($errorCorrectionLevel=='Q')?' selected':'').'>Q</option>
-            <option value="H"'.(($errorCorrectionLevel=='H')?' selected':'').'>H - best</option>
-        </select>&nbsp;
-        Size:&nbsp;<select name="size">';
-        
-    for($i=1;$i<=10;$i++)
-        echo '<option value="'.$i.'"'.(($matrixPointSize==$i)?' selected':'').'>'.$i.'</option>';
-        
-    echo '</select>&nbsp;
-        <input type="submit" value="GENERATE"></form><hr/>';
-        
-    // benchmark
-    QRtools::timeBenchmark();    
-
-    
+	mysqli_close($conn);
+?>
